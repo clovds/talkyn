@@ -1,50 +1,56 @@
 import React, { useState } from "react";
 import { Button, Input } from "reactstrap";
-import Axios from "axios";
-import { api_url } from "../helpers";
+import { connect } from "react-redux";
+import { loginAction } from "../redux/actions";
+import { Redirect } from "react-router-dom";
 
 let data = {
-  username: "",
-  email: "",
-  password: "",
+	username: "",
+	email: "",
+	password: "",
 };
 
-function LoginPage() {
-  const [input, setInput] = useState(data);
+function LoginPage(props) {
+	const [input, setInput] = useState(data);
 
-  const onChangeInput = (e) => {
-    setInput({ ...input, [e.target.id]: e.target.value });
-  };
+	const onChangeInput = (e) => {
+		setInput({ ...input, [e.target.id]: e.target.value });
+	};
+	const handleLogin = () => {
+		props.loginAction(input);
+	};
 
-  const loginPost = async () => {
-    try {
-      const response = await Axios.post(`${api_url}/users/login`, input);
-    } catch (err) {}
-  };
-
-  return (
-    <div>
-      <Input
-        placeholder="username"
-        type="text"
-        id="username"
-        onChange={onChangeInput}
-      />
-      <Input
-        placeholder="email"
-        type="email"
-        id="email"
-        onChange={onChangeInput}
-      />
-      <Input
-        placeholder="password"
-        type="password"
-        id="password"
-        onChange={onChangeInput}
-      />
-      <Button>Login</Button>
-    </div>
-  );
+	if (props.userID) {
+		return <Redirect to="/" />;
+	}
+	return (
+		<div>
+			<Input
+				placeholder="username"
+				type="text"
+				id="username"
+				onChange={onChangeInput}
+			/>
+			<Input
+				placeholder="email"
+				type="email"
+				id="email"
+				onChange={onChangeInput}
+			/>
+			<Input
+				placeholder="password"
+				type="password"
+				id="password"
+				onChange={onChangeInput}
+			/>
+			<Button onClick={handleLogin}>Login</Button>
+		</div>
+	);
 }
 
-export default LoginPage;
+const mapStateToProps = ({ user }) => {
+	return {
+		userID: user.id,
+	};
+};
+export default connect(mapStateToProps, { loginAction })(LoginPage);

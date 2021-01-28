@@ -16,24 +16,24 @@ app.io = io;
 app.userCount = userCount;
 
 io.on("connection", (socket) => {
-  userCount += 1;
-  console.log("User Connected", userCount);
-  io.emit("JumlahUser", userCount);
+	userCount += 1;
+	console.log("User Connected", userCount);
+	io.emit("JumlahUser", userCount);
 
-  socket.on("chat", (data) => {
-    console.log(data);
-    io.emit("chat", data);
-  });
+	socket.on("chat", (data) => {
+		console.log(data);
+		io.emit("chat", data);
+	});
 
-  socket.on("disconnect", () => {
-    userCount--;
-    console.log("User Disconnected, Remaining: ", userCount);
-    io.emit("JumlahUser", userCount);
-  });
+	socket.on("disconnect", () => {
+		userCount--;
+		console.log("User Disconnected, Remaining: ", userCount);
+		io.emit("JumlahUser", userCount);
+	});
 });
 
 app.get("/", (req, res) => {
-  res.status(200).send("<h1>Express API</h1>");
+	res.status(200).send("<h1>Express API</h1>");
 });
 
 app.use("/users", userRouter);
