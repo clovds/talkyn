@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
 	id: null,
-	username: "",
+	email: "",
+	google_login: null,
 };
 
 export const userReducer = (state = INITIAL_STATE, action) => {
@@ -9,7 +10,12 @@ export const userReducer = (state = INITIAL_STATE, action) => {
 			return {
 				...state,
 				id: action.payload.id,
-				username: action.payload.username,
+				email: action.payload.user_email,
+				google_login: action.payload.user_google_login,
+			};
+		case "LOGOUT":
+			return {
+				...INITIAL_STATE,
 			};
 		default:
 			return state;

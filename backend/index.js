@@ -9,7 +9,7 @@ const port = 2000;
 const userRouter = require("./router/userRouter");
 
 app.use(cors());
-app.use(bodyParser());
+app.use(bodyParser.json());
 
 let userCount = 0;
 app.io = io;

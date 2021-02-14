@@ -4,10 +4,10 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import reducer from "./redux/reducers";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const store = configureStore({
 	devTools: true,
