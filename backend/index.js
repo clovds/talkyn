@@ -4,7 +4,9 @@ const cors = require("cors");
 const http = require("http");
 const bodyParser = require("body-parser");
 const server = http.createServer(app);
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: { origin: "*" },
+});
 const port = 2000;
 const userRouter = require("./router/userRouter");
 
@@ -14,6 +16,7 @@ app.use(bodyParser());
 let userCount = 0;
 app.io = io;
 app.userCount = userCount;
+let users = [];
 
 io.on("connection", (socket) => {
   userCount += 1;
