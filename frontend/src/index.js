@@ -10,18 +10,18 @@ import reducer from "./redux/reducers";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const store = configureStore({
-	devTools: true,
-	reducer,
+  devTools: true,
+  reducer,
 });
 ReactDOM.render(
-	<React.Fragment>
-		<Provider store={store}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</Provider>
-	</React.Fragment>,
-	document.getElementById("root")
+  <React.Fragment>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </React.Fragment>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
