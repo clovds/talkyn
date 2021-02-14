@@ -1,16 +1,19 @@
 const { query } = require("../database");
-const { hashPassword } = require("../helpers");
+const { hashPassword } = require("./hash");
+// const { hashPassword } = require("../helpers/hash");
 const loginValidator = async (req, res, next) => {
 	try {
 		const { email, password } = req.body;
-		password = hashPassword(password);
-		let sql = `SELECT * FROM users WHERE user_email = '${email}' AND user_password = '${password}' AND user_google_login = 0`;
+		console.log("masuk login");
+		const encryptedPassword = hashPassword(password);
+		console.log(encryptedPassword);
+		let sql = `SELECT * FROM users WHERE user_email = '${email}' AND user_password = '${encryptedPassword}' AND user_google_login = 0`;
 		const response = await query(sql);
 		if (response.length !== 0) {
 			return next();
 		} else {
 			await query(
-				`INSERT INTO users (user_email, user_password, user_google_login) VALUES ('${email}', '${password}', 0 )`
+				`INSERT INTO users (user_email, user_password, user_google_login) VALUES ('${email}', '${encryptedPassword}', 0 )`
 			);
 			next();
 		}

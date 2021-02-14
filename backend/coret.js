@@ -5,4 +5,5 @@ const hashPassword = (pass) => {
 		.update(pass)
 		.digest("hex");
 };
-module.exports = { hashPassword };
+const password = "asdasd";
+console.log(hashPassword(password));

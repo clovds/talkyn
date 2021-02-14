@@ -7,8 +7,8 @@ const { hashPassword } = require("../helpers");
 const userLogin = async (req, res) => {
 	try {
 		const { password, email } = req.body;
-		password = hashPassword(password);
-		let sql = `SELECT * FROM users WHERE user_email = '${email}' AND user_password = '${password}' AND user_google_login = 0`;
+		const encryptedPassword = hashPassword(password);
+		let sql = `SELECT * FROM users WHERE user_email = '${email}' AND user_password = '${encryptedPassword}' AND user_google_login = 0`;
 		const response = await query(sql);
 		const token = createJWTToken({ ...response[0] });
 		return res.status(200).send({ ...response[0], token });
