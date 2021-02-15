@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { Route } from "react-router-dom";
+import Landing from "./pages/Landing";
+import "./App.css";
+import LoginPage from "./pages/Login";
+import { useSelector, useDispatch } from "react-redux";
+import { keepLoginAction } from "./redux/actions";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const dispatch = useDispatch();
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			console.log(token);
+			dispatch(keepLoginAction(token));
+		}
+	}, []);
+	return (
+		<div>
+			<Route path="/" exact component={Landing} />
+			<Route path="/login" component={LoginPage} />
+		</div>
+	);
 }
 
 export default App;
