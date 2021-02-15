@@ -8,6 +8,7 @@ function Landing() {
   const [count, setCount] = useState(0);
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState("");
+  const [room, setRoom] = useState("");
 
   useEffect(() => {
     socket.on("JumlahUser", updateUserCount);
@@ -23,14 +24,21 @@ function Landing() {
   };
 
   const click = () => {
-    socket.emit("chat", message);
+    socket.emit("chat", { message, room });
     setMessage("");
-    console.log(chat);
+  };
+
+  const channelBtn = (roomName) => {
+    if (room.length > 0) socket.emit("leave room", room);
+    setRoom(roomName);
+    socket.emit("join room", roomName);
   };
 
   return (
     <div className="container">
       <h3 className=" text-center">Online User: {count}</h3>
+      <button onClick={() => channelBtn("general")}>general</button>
+      <button onClick={() => channelBtn("testing")}>testing</button>
       <div className="messaging">
         <div className="inbox_msg">
           <div className="mesgs">

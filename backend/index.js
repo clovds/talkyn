@@ -9,6 +9,7 @@ const io = require("socket.io")(server, {
 });
 const port = 2000;
 const userRouter = require("./router/userRouter");
+const query = require("./database");
 
 app.use(cors());
 app.use(bodyParser());
@@ -23,9 +24,19 @@ io.on("connection", (socket) => {
   console.log("User Connected", userCount);
   io.emit("JumlahUser", userCount);
 
-  socket.on("chat", (data) => {
-    console.log(data);
-    io.emit("chat", data);
+  socket.on("join room", (room) => {
+    console.log(`join ${room}`);
+    socket.join(room);
+  });
+
+  socket.on("leave room", (room) => {
+    console.log(`leave ${room}`);
+    socket.leave(room);
+  });
+
+  socket.on("chat", ({ message, room }) => {
+    query(`INSERT INTO chat (chat, room) VALUES ('${message}', '${room}')`);
+    io.to(room).emit("chat", message);
   });
 
   socket.on("disconnect", () => {
